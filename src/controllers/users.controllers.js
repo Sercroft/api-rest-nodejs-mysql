@@ -32,21 +32,19 @@ export const getUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try{
-        const { id, fullname, type_identification, num_identification, gender, address, phone } = req.body;
+        const { fullname, type_identification, num_identification, gender, address, phone } = req.body;
 
-        if(id != null || id != undefined){
-            const [rows] = await pool.query('INSERT INTO users (id, fullname, type_identification, num_identification, gender, address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)', [id, fullname, type_identification, num_identification, gender, address, phone]);
-            
-            res.send({
-                id: rows.insertId,
-                fullname,
-                type_identification,
-                num_identification,
-                gender,
-                address,
-                phone
-            });
-        }
+        const [rows] = await pool.query('INSERT INTO users (fullname, type_identification, num_identification, gender, address, phone) VALUES (?, ?, ?, ?, ?, ?)', [fullname, type_identification, num_identification, gender, address, phone]);
+        
+        res.send({
+            id: rows.insertId,
+            fullname,
+            type_identification,
+            num_identification,
+            gender,
+            address,
+            phone
+        });
 
     }catch(error){
         return res.status(500).json({
